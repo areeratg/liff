@@ -66,15 +66,38 @@
     }
 
     async function sendMsg() {
+      if (liff.getContext().type != "none"){
+        await liff.sendMessages([
+          {
+            "type":"sticker",
+            "stickerId":1,
+            "packageId":1
+          }
+        ])
+        alert("Message Sent")
+      }
+      
     }
 
     function getContext() {
+      document.getElementById("type").append(liff.getContext().type)
+      document.getElementById("viewType").append(liff.getContext().viewType)
+      document.getElementById("utouID").append(liff.getContext().utouID) 
+      document.getElementById("roomID").append(liff.getContext().roomID) 
+      document.getElementById("groupID").append(liff.getContext().groupID) 
     }
 
     async function getUserProfile() {
+      const profile = await liff.getUserProfile()
+      document.getElementById("pictureUrl").src = profile.pictureUrl
+      document.getElementById("userID").append(profile.userId)
+      document.getElementById("statusMessage").append(profile.statusMessage)
+      document.getElementById("displayName").append(profile.displayName)
+      document.getElementById("decodedIDToken").append(liff.getDecodedIDToken().email)
     }
 
     function getEnvironment() {
+      
       document.getElementById("os").append(liff.getOS())
       alert(document.getElementById("os"))
       document.getElementById("language").append(liff.getLanguage())
@@ -95,8 +118,8 @@
       await liff.init({ liffId: "1655910243-Xxpw54PE" })
       getEnvironment()
 
-      // getUserProfile()
-      // getContext()
+      getUserProfile()
+      getContext()
       // getFriendship()
       // createUniversalLink()
     }
